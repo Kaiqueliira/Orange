@@ -8,12 +8,14 @@ namespace Orange.Data
     {
         public OrangeContext(DbContextOptions<OrangeContext> options) : base(options)
         {
+            this.ChangeTracker.LazyLoadingEnabled = false;
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new TrailMapping());
             modelBuilder.ApplyConfiguration(new CourseMapping());
+
         }
 
         public DbSet<Trail> Trail { get; set; }
