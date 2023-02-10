@@ -10,7 +10,7 @@ namespace Orange.Mappings
         {
             builder.ToTable("Trail");
 
-            builder.HasKey(t => t.Id);
+            builder.HasKey(p => p.Id);
 
             builder.Property(p => p.Title)
                 .HasColumnType("varchar(100)")
