@@ -36,5 +36,19 @@ namespace Orange.Controllers
             Trail trail = await _trailRepository.AddTrail(trailModel);
             return Ok(trail);
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<Trail>> Update(int id, [FromBody] Trail trailModel)
+        {
+            trailModel.Id = id;
+            Trail trail = await _trailRepository.UpdateTrail(id, trailModel);
+            return Ok(trail);
+        }
+        [HttpDelete]
+        public async Task<ActionResult<Trail>> Remove(int id)
+        {
+            bool deleted = await _trailRepository.DeleteTrail(id);
+            return Ok(deleted);
+        }
     }
 }
