@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Orange.Data;
 using Orange.Model;
 using Orange.Repository.Interfaces;
@@ -18,12 +19,20 @@ namespace Orange.Repository
 
         public async Task<List<Trail>> GetAllTrails()
         {
-            return await _context.Trail.ToListAsync();
+            return await _context.Trail.Include("Courses").ToListAsync();
         }
 
         public async Task<Trail> GetTrailById(int id)
         {
-            return await _context.Trail.FirstOrDefaultAsync(x => x.Id == id);
+            Trail trail = await _context.Trail
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (trail == null)
+            {
+                throw new Exception($"A Trilha não com o Id: {id} não foi encontrada no banco de Dados.");
+            }
+
+            return trail;
         }
 
         public async Task<Trail> AddTrail(Trail trail)
@@ -39,11 +48,6 @@ namespace Orange.Repository
 
             Trail trailById = await GetTrailById(id);
 
-            if (trailById == null)
-            {
-                throw new Exception($"A Trilha não com o Id: {id} não foi encontrada no banco de Dados.");
-            }
-
             trailById.Title = trail.Title;
             trailById.Description = trail.Description;
             trailById.Courses = trail.Courses;
@@ -56,11 +60,6 @@ namespace Orange.Repository
         public async Task<bool> DeleteTrail(int id)
         {
             Trail trailById = await GetTrailById(id);
-
-            if (trailById == null)
-            {
-                throw new Exception($"A Trilha não com o Id: {id} não foi encontrada no banco de Dados.");
-            }
 
             _context.Trail.Remove(trailById);
             await _context.SaveChangesAsync();
