@@ -6,6 +6,6 @@
         public string Type { get; set; }
         public String Link { get; set; }
         public String Author { get; set; }
-        public Trail Trail { get; set; }
+        public Trail? Trail { get; set; }
     }
 }
