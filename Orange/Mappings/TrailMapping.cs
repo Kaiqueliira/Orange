@@ -19,6 +19,9 @@ namespace Orange.Mappings
             builder.Property(p => p.Description)
                 .HasColumnType("varchar(1024)");
 
+            builder.HasMany(c => c.Courses)
+                .WithOne(t => t.Trail)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
