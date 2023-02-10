@@ -10,7 +10,7 @@ namespace Orange.Mappings
         {
             builder.ToTable("Course");
 
-            builder.HasKey(p => p.Id);
+            builder.HasKey(c => c.Id);
             builder.Property(p => p.Type)
                 .HasColumnType("varchar(50)")
                 .IsRequired();
@@ -23,9 +23,10 @@ namespace Orange.Mappings
                 .HasColumnType("varchar")
                 .IsRequired();
 
-            builder.HasOne(p => p.Trail)
-                .WithMany(p => p.Courses);
-
+            builder.HasOne(t => t.Trail)
+                .WithMany(c => c.Courses)
+                .HasForeignKey(c => c.TrailId)
+                .OnDelete(DeleteBehavior.SetNull);
 
         }
     }
