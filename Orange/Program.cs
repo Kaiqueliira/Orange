@@ -11,6 +11,7 @@ var connectionString = builder.Configuration.GetConnectionString("OrangeDB");
 builder.Services.AddDbContext<OrangeContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<ITrailRepository, TrailRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
 builder.Services.AddControllers();
 
