@@ -43,7 +43,7 @@ namespace Orange.Controllers
             Course course = await _courseRepository.UpdateCourse(id, courseModel);
             return Ok(course);
         }
-        [HttpDelete]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<Course>> Remove(int id)
         {
             bool deleted = await _courseRepository.DeleteCourse(id);
